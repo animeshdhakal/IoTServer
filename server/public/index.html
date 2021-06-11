@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        button {
+            width: 100px;
+            height: 100px;
+            font-size: 2rem;
+            border-radius: 100px;
+        }
+
+        .main {
+            width: 100vw;
+            height: 100vh;
+            display: grid;
+            place-items: center;
+
+        }
+
+        .main #btndiv {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        button {
+            margin: 10px;
+        }
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="main">
+        <div id="btndiv">
+
+        </div>
+    </div>
+    <script>
+        const AuthToken = "60bf07d7758b5a2873b78733";
+        let states = {};
+        
+         function BtnClick(e) {
+            
+            states[e] = (1 - states[e]);
+            const url = `http://192.168.100.12:2000/${AuthToken}/setPin/${e}?value=${states[e]}`;
+            fetch(url, {
+                method: "GET"
+            })
+
+            document.getElementById(e).innerText = states[e] == 0 ? "OFF" : "ON";
+            
+        }
+
+        const Testing = (interval) => {
+            setInterval(() => {
+                ["N0", "N1", "N2", "N3"].map((i) => {
+                    BtnClick(i);
+                })
+            }, interval);
+        }
+
+
+
+        const SyncWithServer = async () => {
+            const resp = await fetch(`http://192.168.100.12:2000/${AuthToken}/getAll`, { method: "GET" });
+            const data = await resp.text();
+            resp.headers.forEach((value, key) => {
+                if (key.startsWith("np", 0)) {
+                    if (states["N" + key.substr(2)] !== value) {
+                        states["N" + key.substr(2)] = value;
+                        document.getElementById("N" + key.substr(2)).innerText = value == 0 ? "OFF" : "ON";
+                    }
+
+                }
+            })
+        }
+
+
+        setTimeout(async () => {
+            const resp = await fetch(`http://192.168.100.12:2000/${AuthToken}/getAll`, { method: "GET" });
+            const data = await resp.text();
+            resp.headers.forEach((value, key) => {
+                if (key.startsWith("np", 0)) {
+                    states["N" + key.substr(2)] = value;
+                    document.getElementById('btndiv').innerHTML += `<button id="${"N" + key.substr(2)}" onclick="BtnClick('${"N" + key.substr(2)}')">${value == 0 ? "OFF" : "ON"}</button>`;
+                }
+            })
+        }, 0)
+
+        // setInterval(SyncWithServer, 400)
+        // Testing(500);
+    </script>
+</body>
+
+</html>

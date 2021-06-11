@@ -1,0 +1,7 @@
+server/.env
+server/node_modules
+serverpy/__pycache__
+serverpy/.git
+serverpy/sqlData
+serverpy/Procfile
+serverpy/requirements.txt
