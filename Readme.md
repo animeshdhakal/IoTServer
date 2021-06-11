@@ -26,7 +26,7 @@ This project can be used through Arduino Ide but this project specifically uses 
 
 ```make all```     - Build the Program
 
-These are some Basic Commmands. You can find more commands at [makeEspArduino](https://www.github.com/animeshdhakal) github Repo.
+These are some Basic Commmands. You can find more commands at [makeEspArduino](https://www.github.com/plerup/makeEspArduino) github Repo.
 ## Usage/Examples
 
 ```c++
@@ -100,7 +100,7 @@ void loop()
 #### Get All UsedPins in Header
 
 ```http
-  GET /${auth}/getAll
+  GET /auth/getAll
 ```
 
 | Parameter | Type     | Description                |
@@ -110,14 +110,14 @@ void loop()
 #### Set Pin Value
 
 ```http
-  GET /${auth}/setPin/${Pin}?value=${value}
+  GET /auth/setPin/Pin?value=PinValue
 ```
 
 | Parameter | Type     | Description                       |
 | :-------- | :------- | :-------------------------------- |
 | `auth`    | `string` | **Required**. Your Auth key       |
 | `Pin`     | `string` | **Required**. Pin starting from N0 to N9 |
-| `value`   | `string` | **Required**. Value to set in the respective Pin |
+| `PinValue`   | `string` | **Required**. Value to set in the respective Pin |
 
 
   
