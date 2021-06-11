@@ -5,3 +5,4 @@ serverpy/.git
 serverpy/sqlData
 serverpy/Procfile
 serverpy/requirements.txt
+.vscode
